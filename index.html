@@ -1,16 +1,23 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+			<meta charset="utf-8">
 
-		<title>reveal.js</title>
-
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
-
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+			<title>Virtual DOM without nails</title>
+	
+			<meta name="description" content="VDOM frontend talk">
+			<meta name="author" content="Izygin Nikita">
+	
+			<meta name="apple-mobile-web-app-capable" content="yes">
+			<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+			<link rel="stylesheet" href="css/reveal.css">
+			<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+	
+			<!-- Theme used for syntax highlighting of code -->
+			<link rel="stylesheet" href="lib/css/zenburn.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,8 +31,292 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Virtual dom <br> без гвоздей</h2>
+					<img class="plain" style="background: none" src="img/tensor.png" alt="">
+				</section>
+				<section>
+					<h1>
+						VDOM?
+					</h1>
+				</section>
+				<section data-background="img/notavailable.gif">
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable>
+								&lt;!DOCTYPE html&gt;
+								&lt;html&gt;
+								  &lt;head&gt;
+									 &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1&quot;&gt;
+									 &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;
+									 &lt;title&gt;Critical Path&lt	;/title&gt;
+								  &lt;/head&gt;
+								  &lt;body&gt;
+									 &lt;p&gt;
+									 	Hello 
+										&lt;span id=&quot;first&quot;&gt;web performance&lt;/span&gt;
+										students!
+									 &lt;/p&gt;
+									 &lt;div&gt;&lt;img src=&quot;awesome-photo.jpg&quot;&gt;&lt;/div&gt;
+								  &lt;/body&gt;
+								&lt;/html&gt;
+					</code></pre>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/render1.png" alt="">
+				</section>
+				<section>
+						<ol>
+								<li class="fragment">Преобразование</li>
+								<li class="fragment">Разметка</li>
+								<li class="fragment">Создание объектов</li>
+								<li class="fragment">Формирование DOM</li>
+								<li class="fragment">Формирование CSSOM</li>
+								<li class="fragment">Создание модели из DOM и CSSOM</li>
+								<li class="fragment">Форма, расположения объектов</li>
+								<li class="fragment">Создание макета</li>
+								<li class="fragment">Вывод объектов на экран</li>
+						</ol>
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable style="font-size: 18px;">
+document.getElementById('first').innerHTML = "Tensor"
+					</code></pre>
+				</section>
+				<section>
+						<ol>
+								<li class="fragment">Парсинг HTML</li>
+								<li class="fragment">Удаление детей у id="first""</li>
+								<li class="fragment">Обновление DOM с текстом "Tensor"</li>
+								<li class="fragment" style="color: red">Пересчет CSS для родителя и ребенка</li>
+								<li class="fragment" style="color: red">Обновление слоев</li>
+								<li class="fragment">Обход отображаемого дерева</li>
+								<li class="fragment" style="color: green">Paint!</li>
+						</ol>
+				</section>
+				<section>
+					<ul>
+						 <li class="fragment">Оптимальный разностный алгоритм</li>
+						 <li class="fragment">Обновления пачками</li>
+						 <li class="fragment">Обновление конкретного поддерева</li>
+					</ul>
+				</section>
+				<section data-background="img/wow.gif">
+					<h1>VDOM!</h1>
+				</section>
+				<section>
+					<p>
+						<span class="fragment" style="color: red">rx-domh</span>
+						<span class="fragment" style="color: green">choo</span>
+						<span class="fragment" style="color: blue">reflex</span>
+						<span class="fragment" style="color: rebeccapurple">miso</span>
+						<span class="fragment" style="color: yellowgreen">Hyperapp</span>
+						<span class="fragment" style="color: orange">Ember</span>
+					</p>
+					<p>
+						<span class="fragment" style="color: green">Angular</span>
+						<span class="fragment" style="color: rebeccapurple">React</span>
+						<span class="fragment" style="color: red">Reagent</span>
+						<span class="fragment" style="color: yellowgreen">Maquette</span>
+						<span class="fragment" style="color: orange">AppRun</span>
+						<span class="fragment" style="color: blue">Mithril</span>
+					</p>
+					<p>
+						<span class="fragment" style="color: blue">Ractive</span>
+						<span class="fragment" style="color: yellowgreen">Marko</span>
+						<span class="fragment" style="color: orange">Redom</span>
+						<span class="fragment" style="color: red">Vue</span>
+						<span class="fragment" style="color: green">Elm</span>
+						<span class="fragment" style="color: rebeccapurple">domvm</span>
+						<span class="fragment">.</span>
+						<span class="fragment">.</span>
+						<span class="fragment">.</span>
+					</p>
+				</section>
+				<section data-background="img/giphy.gif">
+				</section>
+				<section data-background="img/3.png">
+				</section>
+				<section>
+					<h1>Поехали</h1>
+				</section>
+				<section>
+						<h1>petit-dom</h1>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/4.png" alt="">
+				</section>
+				<section>
+					<h4>Разностный алгоритм Майерса (1986)</h4>
+					<ol>
+						<li class="fragment">Разностный алгоритм принимает две структуры на вход</li>
+						<li class="fragment">Алгоритм находит кратчайший скрипт редактирования(КСК), превращающий структуру A в B</li>
+						<li class="fragment">Применение КСК</li>
+					</ol>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/5.gif" alt="">
+				</section>
+				<section>
+					<h2>Оптимизации</h2>
+					<p>Частные случаи</p>
+				</section>
+				<section>
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 16px;">
+// Старое дерево пустое
+if (newStart <= newEnd && oldStart > oldEnd) {
+	oldCh = oldChildren[oldStart];
+	appendChildren(parent, children, newStart, newEnd, oldCh && oldCh._node);
+	return;
+}
+					</code></pre>
+				</section>
+				<section>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 16px;">
+// Новое дерево пустое
+if (oldStart <= oldEnd && newStart > newEnd) {
+	removeChildren(parent, oldChildren, oldStart, oldEnd);
+	return;
+}
+						</code></pre>
+				</section>
+				<section>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 15px;">
+// Одна из двух структур содержит в себе другую
+if (oldRem < newRem) {
+  k = indexOf(
+	 children,
+	 oldChildren
+  );
+  if (k >= 0) { // do smth
+  }
+} else if (oldRem > newRem) {
+  k = indexOf(
+	 oldChildren,
+	 children
+  );
+  if (k >= 0) { // do smth
+  }
+}
+						</code></pre>
+				</section>
+				<section>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 15px;">
+// Между структурами разница в одну ноду
+if (oldStart === oldEnd) {
+	var node = oldChildren[oldStart]._node;
+	appendChildren(parent, children, newStart, newEnd, node);
+	parent.removeChild(node);
+	unmount(node);
+	return;
+ }
+ if (newStart === newEnd) {
+	parent.insertBefore(mount(children[newStart]), oldChildren[oldStart]._node);
+	removeChildren(parent, oldChildren, oldStart, oldEnd);
+	return;
+ }
+						</code></pre>
+				</section>
+				<section>
+					<ol>
+						<li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.4.6927&rep=rep1&type=pdf">An O(ND) Difference Algorithm and Its Variations</a></li>
+						<li><a href="https://www.codeproject.com/Articles/42279/Investigating-Myers-diff-algorithm-Part-of">Investigating Myers' diff algorithm</a></li>
+						<li><a href="https://neil.fraser.name/writing/diff/">Diff Strategies</a></li>
+					</ol>
+				</section>
+				<section>
+						<h1>IVI</h1>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+						<img class="plain" style="background: none" src="img/6.png" alt="">
+				</section>
+				<section>
+					<p>Свой алгоритм с использованием поиска наибольшей увеличивающейся подпоследовательности</p>
+				</section>
+				<section><pre><code  class="javascript" data-trim contenteditable>
+A: [b c d e f] // старая последовательность
+B: [c b h f e] // новая последовательность
+P: [. . . . .] // (. == -1) массив заполненный -1, 
+// длина которого равна длинне новой последовательности
+// он будет заполнятся позициями значений из старой последовательности
+				</code></pre>
+				</section>
+				<section><pre><code  class="javascript" data-trim contenteditable>
+// объект ключи которого 
+// содержат значения новой последовательности
+// а значения это позиция конкретного ключа в ней
+B: [c b h f e] // новая последовательность
+I: {
+	  c: 0,
+	  b: 1,
+	  h: 2,
+	  f: 3,
+	  e: 4,
+	}
+				</code></pre>
+				</section>
+				<section><pre><code  class="javascript" data-trim contenteditable>
+// с помощью LIS будем искать минимальное количество передвижений
+A: [b c d e f]
+B: [c b h f e]
+P: [1 0 . 4 3] // . == -1
+LIS:     [1 4] // поиск наибольшей увеличивающейся подпоследовательности
+				</code></pre>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+						<img class="plain" style="background: none" src="img/7.gif" alt="">
+				</section>
+				<section>
+					<h2>Оптимизации</h2>
+					<p>Частные случаи</p>
+				</section>
+				<section><pre><code  class="javascript" data-trim contenteditable>
+// одинаковые ноды в начале
+while (
+	(
+	aStartVNode!._k === bStartVNode!._k) &&
+	(((aStartVNode!._f ^ bStartVNode!._f) 
+	& VNodeFlags.Key) === 0
+	)
+ ) {
+	_sync(parent, aStartVNode!, bStartVNode!);
+	// dom smth
+	if (i) {
+	  break outer;
+	}
+ }
+				</code></pre>
+				</section>
+				<section><pre><code  class="javascript" data-trim contenteditable>
+// одинаковые ноды в конце
+while (
+	(
+	aEndVNode!._k === bEndVNode!._k) &&
+	(((aEndVNode!._f ^ bEndVNode!._f) 
+	& VNodeFlags.Key) === 0
+	)
+ ) {
+	_sync(parent, aEndVNode, bEndVNode, context, dirtyContext);
+	// dom smth
+ }
+}
+				</code></pre>
+				</section>			
+				<section>
+					<img class="plain" style="background: none" src="img/Vue.png" alt="">
+				</section>
+				<section>
+					<img src="img/1.png" alt="" />
+				</section>
+				<section>
+					<img src="img/2.png" alt="">
+				</section>
+				<section>
+					<img class="plain" style="background: none" src="img/react.png" alt="">
+				</section>
+				<section>
+						<img class="plain" style="background: none" src="img/inferno.png" alt="">
+				</section>
 			</div>
 		</div>
 
@@ -33,15 +324,24 @@
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
+			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
