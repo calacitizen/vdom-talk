@@ -301,7 +301,227 @@ while (
  }
 }
 				</code></pre>
-				</section>			
+				</section>
+				<section>
+						<img class="plain" style="background: none" src="img/react.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+						<img class="plain" style="background: none" src="img/8.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/9.png" alt="">
+				</section>
+				<section>
+					<h2>Reconciliation</h2>
+				</section>
+				<section>
+					<h4>Нахождение кратчайшего расстояния</h4>
+					<p><a href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf">A Survey on Tree Edit Distance and Related
+						Problems</a></p>
+					<ol>
+						<li class="fragment">Zhang and Shasha’s</li>
+						<li class="fragment">Jiang, Wang, and Zhang’s</li>
+						<li class="fragment">Kilpel¨ainen and Mannila’s</li>
+					</ol>
+				</section>
+				<section>
+					<h2>O(nˆ3)</h2>
+				</section>
+				<section>
+					<h2>Эвристический алгоритм</h2>
+					<ol>
+						<li class="fragment">Два элемента разных типов создадут разные деревья</li>
+						<li class="fragment">Разработчик может обозначить какие из детей будут стабильными на протяжении нескольких процессов ререндеринга с помощью ключа</li>
+					</ol>
+				</section>
+				<section>
+						<h2>O(n)</h2>
+				</section>
+				<section>
+						<a href="https://github.com/facebook/react/blob/master/packages/react-dom/src/client/ReactDOM.js">react-dom/src/client/ReactDOM.js</a>
+						<pre><code class="javascript" data-trim contenteditable>
+function shouldHydrateDueToLegacyHeuristic(container) {
+	const rootElement = getReactRootElementInContainer(container);
+	return !!(
+	  rootElement &&
+	  rootElement.nodeType === ELEMENT_NODE &&
+	  rootElement.hasAttribute(ROOT_ATTRIBUTE_NAME)
+	);
+ }
+						</code></pre>					
+				</section>
+				<section>
+					<h3>Элементы разных типов</h3>
+					<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+function updateElement(returnFiber: Fiber, current: Fiber | null, element: ReactElement): Fiber {
+	if (current !== null && current.type === element.type) {
+	  // Move based on index
+	  const existing = useFiber(current, element.props, expirationTime);
+	  existing.ref = coerceRef(returnFiber, current, element);
+	  existing.return = returnFiber;
+	  return existing;
+	} else {
+	  // Insert
+	  const created = createFiberFromElement(element, returnFiber.mode, expirationTime,
+	  );
+	  created.ref = coerceRef(returnFiber, current, element); created.return = returnFiber;
+	  return created;
+	}
+ }
+				</code></pre>
+				</section>
+				<section>
+					<h3>Ключи</h3>
+					<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+function mapRemainingChildren(returnFiber: Fiber, currentFirstChild: Fiber,
+ ): Map {// Add the remaining children to a temporary map so that we can find them by
+	// keys quickly. Implicit (null) keys get added to this set with their index instead.
+	const existingChildren: Map = new Map();
+	let existingChild = currentFirstChild;
+	while (existingChild !== null) {
+	  if (existingChild.key !== null) {
+		 existingChildren.set(existingChild.key, existingChild);
+	  } else {
+		 existingChildren.set(existingChild.index, existingChild);
+	  }
+	  existingChild = existingChild.sibling;
+	}
+	return existingChildren;
+ }
+				</code></pre>
+				</section>
+				<section>
+						<h3>Ключи</h3>
+						<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+for (; newIdx < newChildren.length; newIdx++) {
+  const newFiber = updateFromMap(existingChildren, returnFiber, newIdx, newChildren[newIdx]);
+  if (newFiber) {
+	 if (newFiber.alternate !== null) {
+		 existingChildren.delete(newFiber.key === null ? newIdx : newFiber.key,);
+	 }
+	 lastPlacedIndex = placeChild(newFiber, lastPlacedIndex, newIdx);
+	 if (previousNewFiber === null) {
+		resultingFirstChild = newFiber;
+	 } else {
+		previousNewFiber.sibling = newFiber;
+	 }
+	 previousNewFiber = newFiber;
+  }
+}
+				</code></pre>
+				</section>
+				<section>
+						<h3>Рекурсивный Обход</h3>
+						<blockquote>"By default, when recursing on the children of a DOM node, React just iterates over both lists of children at the same time and generates a mutation whenever there’s a difference"</blockquote>
+				</section>
+				<section>
+					<h3><h3>Рекурсивный Обход</h3>
+					<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a></h3>
+					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+function reconcileChildrenIterator(
+	returnFiber: Fiber,
+	currentFirstChild: Fiber | null,
+	newChildrenIterable: Iterable<*>): Fiber | null {					  
+	const iteratorFn = getIteratorFn(newChildrenIterable);			  
+	const newChildren = iteratorFn.call(newChildrenIterable);
+	invariant(newChildren != null, 'An iterable object provided no iterator.');
+							  
+	let resultingFirstChild: Fiber | null = null;
+	let previousNewFiber: Fiber | null = null;
+							  
+	let oldFiber = currentFirstChild;
+	let lastPlacedIndex = 0;
+	let newIdx = 0;
+	let nextOldFiber = null;
+							  
+	let step = newChildren.next();
+	for (
+	  ;
+	  oldFiber !== null && !step.done;
+	  newIdx++, step = newChildren.next()
+	) {
+	  if (oldFiber.index > newIdx) {
+		 nextOldFiber = oldFiber;
+		 oldFiber = null;
+	  } else {
+		 nextOldFiber = oldFiber.sibling;
+	  }
+	  const newFiber = updateSlot(
+		 returnFiber,
+		 oldFiber,
+		 step.value,
+		 expirationTime,
+	  );
+	  if (newFiber === null) {
+		 // TODO: This breaks on empty slots like null children. That's
+		 // unfortunate because it triggers the slow path all the time. We need
+		 // a better way to communicate whether this was a miss or null,
+		 // boolean, undefined, etc.
+		 if (!oldFiber) {
+			oldFiber = nextOldFiber;
+		 }
+		 break;
+	  }
+	  if (shouldTrackSideEffects) {
+		 if (oldFiber && newFiber.alternate === null) {
+			// We matched the slot, but we didn't reuse the existing fiber, so we
+			// need to delete the existing child.
+			deleteChild(returnFiber, oldFiber);
+		 }
+	  }
+	  lastPlacedIndex = placeChild(newFiber, lastPlacedIndex, newIdx);
+	  if (previousNewFiber === null) {
+		 // TODO: Move out of the loop. This only happens for the first run.
+		 resultingFirstChild = newFiber;
+	  } else {
+		 // TODO: Defer siblings if we're not at the right index for this slot.
+		 // I.e. if we had null values before, then we want to defer this
+		 // for each null value. However, we also don't want to call updateSlot
+		 // with the previous one.
+		 previousNewFiber.sibling = newFiber;
+	  }
+	  previousNewFiber = newFiber;
+	  oldFiber = nextOldFiber;
+	}
+							  
+	if (step.done) {
+	  // We've reached the end of the new children. We can delete the rest.
+	  deleteRemainingChildren(returnFiber, oldFiber);
+	  return resultingFirstChild;
+	}
+							  
+	return resultingFirstChild;
+ }
+					</code></pre>
+				</section>
+				<section>
+					<h2>You’re Missing the Point of React</h2>
+					<a href="https://medium.com/@dan_abramov/">https://medium.com/@dan_abramov/</a>
+				</section>
+				<section>
+					<blockquote>"Now that we’re not surprised by virtual DOM anymore and it is being adopted by other frameworks and libraries, we can focus on examining React’s true strengths: composition, unidirectional data flow, freedom from DSLs, explicit mutation and static mental model"</blockquote>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<h2 style="color: black">A faster diff algorithm</h2>
+					<img src="img/10.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img src="img/11.png" alt="">
+				</section>
+				<section>
+					<ol>
+						<li class="fragment">How does we often encounter sequences with 1000 elements in a vdom application.</li>
+						<li class="fragment">Is building large hashmaps as costly as we may think? does it have a real impact ?</li>
+						<li class="fragment">The running time of O(ND) is 'not predictable'.</li>
+					</ol>
+				</section>
+				<section>
+					<h3>Бенчмарки не отвечают верно на все вопросы</h3>
+					<a href="https://www.youtube.com/watch?v=Ag-1wmHWwS4">Evan You - Demystifying Frontend Framework Performance</a>
+				</section>
 				<section>
 					<img class="plain" style="background: none" src="img/Vue.png" alt="">
 				</section>
@@ -310,9 +530,6 @@ while (
 				</section>
 				<section>
 					<img src="img/2.png" alt="">
-				</section>
-				<section>
-					<img class="plain" style="background: none" src="img/react.png" alt="">
 				</section>
 				<section>
 						<img class="plain" style="background: none" src="img/inferno.png" alt="">
