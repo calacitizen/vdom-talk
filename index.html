@@ -158,7 +158,7 @@ document.getElementById('first').innerHTML = "Tensor"
 					<img class="plain" style="background: none" src="img/5.gif" alt="">
 				</section>
 				<section>
-					<h2>Оптимизации</h2>
+					<h2>Эвристика</h2>
 					<p>Частные случаи</p>
 				</section>
 				<section>
@@ -241,6 +241,26 @@ P: [. . . . .] // (. == -1) массив заполненный -1,
 // он будет заполнятся позициями значений из старой последовательности
 				</code></pre>
 				</section>
+				<section>
+					<a href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Mark all nodes as inserted (-1).
+const prevPositionsForB = new Array(bInnerLength).fill(-1); let step2Synced = 0; vnode = aStartVNode;
+while (1) {
+  key = vnode!._k;
+  if (vnode!._f & VNodeFlags.Key) {
+	 i = explicitKeyIndex ? explicitKeyIndex.get(key) : void 0;
+  } else {
+	 i = implicitKeyIndex ? implicitKeyIndex.get(key) : void 0;
+  }			  
+  if (i === void 0) { vnode!._k = null; } else {
+	 lastPosition = (lastPosition > i) ? 1000000000 : i; prevPositionsForB[i] = aInnerLength;
+	 _sync(parent, vnode!, bInnerArray[i], context, dirtyContext); step2Synced++;
+  }
+  aInnerLength++; if (vnode === aEndVNode) { break; } vnode = vnode!._r;
+}
+				</code></pre>
+				</section>
 				<section><pre><code  class="javascript" data-trim contenteditable>
 // объект ключи которого 
 // содержат значения новой последовательности
@@ -255,6 +275,26 @@ I: {
 	}
 				</code></pre>
 				</section>
+				<section>
+						<a href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Temporary vnode
+let vnode = bStartVNode;
+while (1) {
+  key = vnode!._k;
+  if (vnode!._f & VNodeFlags.Key) {
+	 if (explicitKeyIndex === void 0) { explicitKeyIndex = new Map(); }
+		 explicitKeyIndex.set(key, bInnerLength);
+  } else {
+	 if (implicitKeyIndex === void 0) { implicitKeyIndex = new Map(); }
+	 implicitKeyIndex.set(key, bInnerLength);
+  }
+  bInnerArray[bInnerLength++] = vnode!;
+  if (vnode === bEndVNode) break;
+  vnode = vnode!._r;
+}
+				</code></pre>
+				</section>
 				<section><pre><code  class="javascript" data-trim contenteditable>
 // с помощью LIS будем искать минимальное количество передвижений
 A: [b c d e f]
@@ -263,14 +303,35 @@ P: [1 0 . 4 3] // . == -1
 LIS:     [1 4] // поиск наибольшей увеличивающейся подпоследовательности
 				</code></pre>
 				</section>
+				<section>
+						<a href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+const seq = lis(prevPositionsForB);
+i = seq.length - 1;
+while (bInnerLength > 0) {
+  if (prevPositionsForB[--bInnerLength] < 0) {
+	 _render(parent, nextNode(bEndVNode), bEndVNode, context);
+  } else {
+	 if (i < 0 || bInnerLength !== seq[i]) {
+		nodeInsertBefore.call(parent, getDOMNode(bEndVNode)!, nextNode(bEndVNode));
+	 } else {
+		i--;
+	 }
+  }
+  bEndVNode = bEndVNode._l;
+}
+				</code></pre>
+				</section>
 				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
 						<img class="plain" style="background: none" src="img/7.gif" alt="">
 				</section>
 				<section>
-					<h2>Оптимизации</h2>
+					<h2>Эвристика</h2>
 					<p>Частные случаи</p>
 				</section>
-				<section><pre><code  class="javascript" data-trim contenteditable>
+				<section>
+					<a href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<pre><code  class="javascript" data-trim contenteditable>
 // одинаковые ноды в начале
 while (
 	(
@@ -280,14 +341,16 @@ while (
 	)
  ) {
 	_sync(parent, aStartVNode!, bStartVNode!);
-	// dom smth
+	// do smth
 	if (i) {
 	  break outer;
 	}
  }
 				</code></pre>
 				</section>
-				<section><pre><code  class="javascript" data-trim contenteditable>
+				<section>
+					<a href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<pre><code  class="javascript" data-trim contenteditable>
 // одинаковые ноды в конце
 while (
 	(
@@ -297,10 +360,12 @@ while (
 	)
  ) {
 	_sync(parent, aEndVNode, bEndVNode, context, dirtyContext);
-	// dom smth
+	// do smth
  }
 }
 				</code></pre>
+				</section>
+				<section data-background="img/22.gif">
 				</section>
 				<section>
 						<img class="plain" style="background: none" src="img/react.png" alt="">
@@ -328,7 +393,7 @@ while (
 					<h2>O(nˆ3)</h2>
 				</section>
 				<section>
-					<h2>Эвристический алгоритм</h2>
+					<h2>Эвристика</h2>
 					<ol>
 						<li class="fragment">Два элемента разных типов создадут разные деревья</li>
 						<li class="fragment">Разработчик может обозначить какие из детей будут стабильными на протяжении нескольких процессов ререндеринга с помощью ключа</li>
@@ -508,8 +573,7 @@ function reconcileChildrenIterator(
 					<h2 style="color: black">A faster diff algorithm</h2>
 					<img src="img/10.png" alt="">
 				</section>
-				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
-					<img src="img/11.png" alt="">
+				<section data-background-video="img/yyyy.mov">
 				</section>
 				<section>
 					<ol>
@@ -525,15 +589,337 @@ function reconcileChildrenIterator(
 				<section>
 					<img class="plain" style="background: none" src="img/Vue.png" alt="">
 				</section>
-				<section>
-					<img src="img/1.png" alt="" />
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/13.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/14.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/15.png" alt="">
 				</section>
 				<section>
-					<img src="img/2.png" alt="">
+						<img class="plain" style="background: none" src="img/16.png" alt="">
+				</section>
+				<section>
+					<ol>
+						<li class="fragment">Эвристика</li>
+						<li class="fragment">Обход с созданием Map для замены/удаления/добавления нод</li>
+					</ol>
+				</section>
+				<section>
+						<a href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+function updateChildren(parentElm: Node,
+                          oldCh: Array,
+                          newCh: Array,
+                          insertedVnodeQueue: VNodeQueue) {
+
+    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+		 // алгоритм
+	 }
+}
+				</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+function updateChildren(parentElm: Node,
+                          oldCh: Array,
+                          newCh: Array,
+                          insertedVnodeQueue: VNodeQueue) {
+
+    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+		 // алгоритм
+	 }
+}
+				</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+if (!isVNode(oldStartVnode)) {
+	oldStartVnode = oldCh[++oldStartIdx]; // Vnode might have been moved left
+ } else if (!isVNode(oldEndVnode)) {
+	oldEndVnode = oldCh[--oldEndIdx];
+ } else if (!isVNode(newStartVnode)) {
+	newStartVnode = newCh[++newStartIdx];
+ } else if (!isVNode(newEndVnode)) {
+	newEndVnode = newCh[--newEndIdx];
+ } else if (sameVnode(oldStartVnode, newStartVnode)) {
+	patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
+	oldStartVnode = oldCh[++oldStartIdx];
+	newStartVnode = newCh[++newStartIdx];
+ }
+				</code></pre>
+				</section>
+				<section>
+				<a href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+				<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+} else if (sameVnode(oldEndVnode, newEndVnode)) {
+	patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);
+	oldEndVnode = oldCh[--oldEndIdx];
+	newEndVnode = newCh[--newEndIdx];
+ } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
+	patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
+	api.insertBefore(parentElm, oldStartVnode.elm as Node, api.nextSibling(oldEndVnode.elm as Node));
+	oldStartVnode = oldCh[++oldStartIdx];
+	newEndVnode = newCh[--newEndIdx];
+ } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
+	patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
+	api.insertBefore(parentElm, oldEndVnode.elm as Node, oldStartVnode.elm as Node);
+	oldEndVnode = oldCh[--oldEndIdx];
+	newStartVnode = newCh[++newStartIdx];
+ }
+				</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+ idxInOld = oldKeyToIdx[newStartVnode.key as string];
+ if (isUndef(idxInOld)) { // New element
+ } else {
+	elmToMove = oldCh[idxInOld];
+	if (isVNode(elmToMove)) {
+	  if (elmToMove.sel !== newStartVnode.sel) {
+		 api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm as Node);
+	  } else {
+		 patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
+		 oldCh[idxInOld] = undefined as any;
+		 api.insertBefore(parentElm, (elmToMove.elm as Node), oldStartVnode.elm as Node);
+	  }
+	}
+	newStartVnode = newCh[++newStartIdx];
+ }
+				</code></pre>
+				</section>
+				<section>
+					<h3>Отличия Vue</h3>
+					<h4 class="fragment">Компоненты и все что с ними связано</h4>
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img width="600" class="plain" style="background: none"  src="img/17.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img width="600"  class="plain" style="background: none"  src="img/18.png" alt="">
+				</section>
+				<section>
+					<h2>Компоненты</h2>
 				</section>
 				<section>
 						<img class="plain" style="background: none" src="img/inferno.png" alt="">
 				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+						<img class="plain" style="background: none" src="img/19.png" alt="">
+				</section>
+				<section>
+					<ol>
+						<li class="fragment">Разные алгоритмы для разных типов детей</li>
+						<li class="fragment">Эвристика</li>
+						<li class="fragment">Обход с использованием поиска наибольшей увеличивающейся подпоследовательности</li>
+					</ol>
+				</section>
+				<section>
+					<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+function patchChildren(
+	lastChildFlags: ChildFlags,
+	nextChildFlags: ChildFlags,
+	lastChildren,
+	nextChildren,
+	parentDOM: Element,
+	context: Object,
+	isSVG: boolean
+ ) {
+	 // алгоритм
+ }
+					</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+case ChildFlags.HasVNodeChildren:
+	switch (nextChildFlags) {
+	  case ChildFlags.HasVNodeChildren:
+		 patch(lastChildren, nextChildren, parentDOM, context, isSVG);
+		 break;
+	  case ChildFlags.HasInvalidChildren:
+		 remove(lastChildren, parentDOM);
+		 break;
+	  default:
+		 remove(lastChildren, parentDOM);
+		 mountArrayChildren(nextChildren, parentDOM, context, isSVG);
+		 break;
+	}
+	break;
+				</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+case ChildFlags.HasInvalidChildren:
+switch (nextChildFlags) {
+  case ChildFlags.HasVNodeChildren:
+	 mount(nextChildren, parentDOM, context, isSVG);
+	 break;
+  case ChildFlags.HasInvalidChildren:
+	 break;
+  default:
+	 mountArrayChildren(nextChildren, parentDOM, context, isSVG);
+	 break;
+}
+break;
+				</code></pre>
+				</section>
+				<section>
+						<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
+if (nextChildFlags & ChildFlags.MultipleChildren) {
+	if (lastChildren.length === 0) {
+	  if (nextChildren.length > 0) { // заменим все
+	  }
+	} else if (nextChildren.length === 0) { // удалим все
+	} else if (nextChildFlags === ChildFlags.HasKeyedChildren && lastChildFlags === ChildFlags.HasKeyedChildren) {
+	  patchKeyedChildren(lastChildren, nextChildren, parentDOM, context, isSVG, lastChildren.length, nextChildren.length);
+	} else {
+	  patchNonKeyedChildren(lastChildren, nextChildren, parentDOM, context, isSVG, lastChildren.length, nextChildren.length);
+	}
+ } else if (nextChildFlags === ChildFlags.HasInvalidChildren) {
+	removeAllChildren(parentDOM, lastChildren);
+ } else if (nextChildFlags === ChildFlags.HasVNodeChildren) {
+	removeAllChildren(parentDOM, lastChildren); mount(nextChildren, parentDOM, context, isSVG);
+ }
+				</code></pre>
+				</section>
+				<section>
+					<p>patchKeyedChildren</p>
+						<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Sync nodes with the same key at the beginning.
+while (aNode.key === bNode.key) {
+  if (bNode.dom) {
+	 b[j] = bNode = directClone(bNode);
+  }
+  patch(aNode, bNode, dom, context, isSVG);
+  a[j] = bNode;
+  j++;
+  if (j > aEnd || j > bEnd) { break outer; }
+  aNode = a[j];
+  bNode = b[j];
+}					  
+aNode = a[aEnd];
+bNode = b[bEnd];
+				</code></pre>
+				</section>
+				<section>
+						<p>patchKeyedChildren</p>
+							<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+							<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Sync nodes with the same key at the end.
+while (aNode.key === bNode.key) {
+  if (bNode.dom) {
+	 b[bEnd] = bNode = directClone(bNode);
+  }
+  patch(aNode, bNode, dom, context, isSVG);
+  a[aEnd] = bNode;
+  aEnd--;
+  bEnd--;
+  if (j > aEnd || j > bEnd) {
+	 break outer;
+  }
+  aNode = a[aEnd];
+  bNode = b[bEnd];
+}
+					</code></pre>
+					</section>
+					<section>
+							<p>patchKeyedChildren</p>
+								<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+								<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// When sizes are small, just loop them through
+if (bLength < 4 || (aLeft | bLeft) < 32) {
+  for (i = aStart; i <= aEnd; i++) {
+	 aNode = a[i];
+	 if (patched < bLeft) {
+		for (j = bStart; j <= bEnd; j++) {
+		  bNode = b[j];
+		  if (aNode.key === bNode.key) {
+			 sources[j - bStart] = i + 1;
+			 if (canRemoveWholeContent) {
+				canRemoveWholeContent = false;
+				while (i > aStart) {
+				  remove(a[aStart++], dom);
+				}
+			 }
+			 if (bNode.dom) {
+				b[j] = bNode = directClone(bNode);
+			 }
+			 patch(aNode, bNode, dom, context, isSVG);
+			 patched++;
+			 break;
+		  }
+		}
+		if (!canRemoveWholeContent && j > bEnd) {
+		  remove(aNode, dom);
+		}
+	 } else if (!canRemoveWholeContent) {
+		remove(aNode, dom);
+	 }
+  }
+}
+						</code></pre>
+						</section>
+						<section>
+								<p>patchKeyedChildren</p>
+									<a href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+									<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+if (moved) {
+	const seq = lis_algorithm(sources);
+	j = seq.length - 1;
+	for (i = bLeft - 1; i >= 0; i--) {
+	  if (sources[i] === 0) {
+		 pos = i + bStart;
+		 bNode = b[pos];
+		 if (bNode.dom) {
+			b[pos] = bNode = directClone(bNode);
+		 }
+		 nextPos = pos + 1;
+		 insertOrAppend(dom, mount(bNode, null, context, isSVG), nextPos < bLength ? b[nextPos].dom : null);
+	  } else if (j < 0 || i !== seq[j]) {
+		 pos = i + bStart;
+		 bNode = b[pos];
+		 nextPos = pos + 1;
+		 insertOrAppend(dom, bNode.dom, nextPos < bLength ? b[nextPos].dom : null);
+	  } else {
+		 j--;
+	  }
+	}
+}
+			</code></pre>
+			</section>
+			<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none"  src="img/20.png" alt="">
+			</section>
+			<section>
+				<ol>
+					<li class="fragment">больше 12 тысяч звезд</li>
+					<li class="fragment">До сих пор активно развивается <img src="img/21.png" alt=""></li>
+					<li class="fragment">Сборка отдельных модулей. Без компонентной системы</li>
+					<li class="fragment">Синтетика дает хорошие показатели</li>
+					<li class="fragment">Отличный вывод ошибок</li>
+					<li class="fragment">Легкий debug -> простой стек</li>
+				</ol>
+			</section>
+			<section>
+				<h4>Тот самый бенчмарк</h4>
+				<p class="fragment">который показывает правду, но это не точно</p>
+				<p><a href="https://rawgit.com/krausest/js-framework-benchmark/master/webdriver-ts-results/table.html">https://rawgit.com/krausest/js-framework-benchmark</a></p>
+			</section>
+			<section>
+				<h2>Спасибо</h2>
+				<p><a href="https://twitter.com/calacitizen">twitter.com/calacitizen</a></p>
+				<p><a href="https://github.com/calacitizen">github.com/calacitizen</a></p>
+			</section>
 			</div>
 		</div>
 
