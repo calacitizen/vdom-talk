@@ -49,7 +49,7 @@
 								  &lt;head&gt;
 									 &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1&quot;&gt;
 									 &lt;link href=&quot;style.css&quot; rel=&quot;stylesheet&quot;&gt;
-									 &lt;title&gt;Critical Path&lt	;/title&gt;
+									 &lt;title&gt;Critical Path&lt;/title&gt;
 								  &lt;/head&gt;
 								  &lt;body&gt;
 									 &lt;p&gt;
@@ -65,34 +65,22 @@
 				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
 					<img class="plain" style="background: none" src="img/render1.png" alt="">
 				</section>
-				<section>
-						<ol>
-								<li class="fragment">Преобразование</li>
-								<li class="fragment">Разметка</li>
-								<li class="fragment">Создание объектов</li>
-								<li class="fragment">Формирование DOM</li>
-								<li class="fragment">Формирование CSSOM</li>
-								<li class="fragment">Создание модели из DOM и CSSOM</li>
-								<li class="fragment">Форма, расположения объектов</li>
-								<li class="fragment">Создание макета</li>
-								<li class="fragment">Вывод объектов на экран</li>
-						</ol>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/cssom-construction.png" alt="">
+					<img class="plain" style="background: none" src="img/cssom-tree.png" alt="">
+				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/render-tree-construction.png" alt="">
 				</section>
 				<section>
 					<pre><code class="hljs" data-trim contenteditable style="font-size: 18px;">
 document.getElementById('first').innerHTML = "Tensor"
 					</code></pre>
 				</section>
-				<section>
-						<ol>
-								<li class="fragment">Парсинг HTML</li>
-								<li class="fragment">Удаление детей у id="first""</li>
-								<li class="fragment">Обновление DOM с текстом "Tensor"</li>
-								<li class="fragment" style="color: red">Пересчет CSS для родителя и ребенка</li>
-								<li class="fragment" style="color: red">Обновление слоев</li>
-								<li class="fragment">Обход отображаемого дерева</li>
-								<li class="fragment" style="color: green">Paint!</li>
-						</ol>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+					<img class="plain" style="background: none" src="img/frame-full.jpg" alt="">
+				</section>
+				<section data-background="img/3.png">
 				</section>
 				<section>
 					<ul>
@@ -104,38 +92,9 @@ document.getElementById('first').innerHTML = "Tensor"
 				<section data-background="img/wow.gif">
 					<h1>VDOM!</h1>
 				</section>
-				<section>
-					<p>
-						<span class="fragment" style="color: red">rx-domh</span>
-						<span class="fragment" style="color: green">choo</span>
-						<span class="fragment" style="color: blue">reflex</span>
-						<span class="fragment" style="color: rebeccapurple">miso</span>
-						<span class="fragment" style="color: yellowgreen">Hyperapp</span>
-						<span class="fragment" style="color: orange">Ember</span>
-					</p>
-					<p>
-						<span class="fragment" style="color: green">Angular</span>
-						<span class="fragment" style="color: rebeccapurple">React</span>
-						<span class="fragment" style="color: red">Reagent</span>
-						<span class="fragment" style="color: yellowgreen">Maquette</span>
-						<span class="fragment" style="color: orange">AppRun</span>
-						<span class="fragment" style="color: blue">Mithril</span>
-					</p>
-					<p>
-						<span class="fragment" style="color: blue">Ractive</span>
-						<span class="fragment" style="color: yellowgreen">Marko</span>
-						<span class="fragment" style="color: orange">Redom</span>
-						<span class="fragment" style="color: red">Vue</span>
-						<span class="fragment" style="color: green">Elm</span>
-						<span class="fragment" style="color: rebeccapurple">domvm</span>
-						<span class="fragment">.</span>
-						<span class="fragment">.</span>
-						<span class="fragment">.</span>
-					</p>
+				<section data-background-video="img/yyyy.mov">
 				</section>
 				<section data-background="img/giphy.gif">
-				</section>
-				<section data-background="img/3.png">
 				</section>
 				<section>
 					<h1>Поехали</h1>
@@ -162,6 +121,7 @@ document.getElementById('first').innerHTML = "Tensor"
 					<p>Частные случаи</p>
 				</section>
 				<section>
+					<a style="color: white" target="_blank" href="https://github.com/yelouafi/petit-dom/blob/master/src/vdom.js">petit-dom/src/vdom.js</a>
 					<pre><code class="javascript" data-trim contenteditable style="font-size: 16px;">
 // Старое дерево пустое
 if (newStart <= newEnd && oldStart > oldEnd) {
@@ -172,6 +132,7 @@ if (newStart <= newEnd && oldStart > oldEnd) {
 					</code></pre>
 				</section>
 				<section>
+						<a style="color: white" target="_blank" href="https://github.com/yelouafi/petit-dom/blob/master/src/vdom.js">petit-dom/src/vdom.js</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 16px;">
 // Новое дерево пустое
 if (oldStart <= oldEnd && newStart > newEnd) {
@@ -181,6 +142,7 @@ if (oldStart <= oldEnd && newStart > newEnd) {
 						</code></pre>
 				</section>
 				<section>
+						<a style="color: white" target="_blank" href="https://github.com/yelouafi/petit-dom/blob/master/src/vdom.js">petit-dom/src/vdom.js</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 15px;">
 // Одна из двух структур содержит в себе другую
 if (oldRem < newRem) {
@@ -201,6 +163,7 @@ if (oldRem < newRem) {
 						</code></pre>
 				</section>
 				<section>
+						<a style="color: white" target="_blank" href="https://github.com/yelouafi/petit-dom/blob/master/src/vdom.js">petit-dom/src/vdom.js</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 15px;">
 // Между структурами разница в одну ноду
 if (oldStart === oldEnd) {
@@ -219,9 +182,9 @@ if (oldStart === oldEnd) {
 				</section>
 				<section>
 					<ol>
-						<li><a target="_blank" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.4.6927&rep=rep1&type=pdf">An O(ND) Difference Algorithm and Its Variations</a></li>
-						<li><a target="_blank" href="https://www.codeproject.com/Articles/42279/Investigating-Myers-diff-algorithm-Part-of">Investigating Myers' diff algorithm</a></li>
-						<li><a target="_blank" href="https://neil.fraser.name/writing/diff/">Diff Strategies</a></li>
+						<li><a target="_blank" style="color: white" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.4.6927&rep=rep1&type=pdf">An O(ND) Difference Algorithm and Its Variations</a></li>
+						<li><a target="_blank" style="color: white" href="https://www.codeproject.com/Articles/42279/Investigating-Myers-diff-algorithm-Part-of">Investigating Myers' diff algorithm</a></li>
+						<li><a target="_blank" style="color: white" href="https://neil.fraser.name/writing/diff/">Diff Strategies</a></li>
 					</ol>
 				</section>
 				<section>
@@ -242,9 +205,9 @@ P: [. . . . .] // (. == -1) массив заполненный -1,
 				</code></pre>
 				</section>
 				<section>
-					<a target="_blank" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<a target="_blank" style="color: white" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
 					<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
-// Mark all nodes as inserted (-1).
+// Заполняем массив значениями (-1).
 const prevPositionsForB = new Array(bInnerLength).fill(-1); let step2Synced = 0; vnode = aStartVNode;
 while (1) {
   key = vnode!._k;
@@ -276,9 +239,9 @@ I: {
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
-// Temporary vnode
+// Заполняем объект с ключами
 let vnode = bStartVNode;
 while (1) {
   key = vnode!._k;
@@ -304,8 +267,10 @@ LIS:     [1 4] // поиск наибольшей увеличивающейся
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Применяем поиск наибольшей увеличивающейся подпоследовательности
+// для каждой перестановки
 const seq = lis(prevPositionsForB);
 i = seq.length - 1;
 while (bInnerLength > 0) {
@@ -330,7 +295,7 @@ while (bInnerLength > 0) {
 					<p>Частные случаи</p>
 				</section>
 				<section>
-					<a target="_blank" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<a target="_blank" style="color: white" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
 					<pre><code  class="javascript" data-trim contenteditable>
 // одинаковые ноды в начале
 while (
@@ -349,7 +314,7 @@ while (
 				</code></pre>
 				</section>
 				<section>
-					<a target="_blank" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
+					<a target="_blank" style="color: white" href="https://github.com/localvoid/ivi/blob/master/packages/ivi/src/vdom/sync.ts">ivi/src/vdom/sync.ts</a>
 					<pre><code  class="javascript" data-trim contenteditable>
 // одинаковые ноды в конце
 while (
@@ -381,7 +346,7 @@ while (
 				</section>
 				<section>
 					<h4>Нахождение кратчайшего расстояния</h4>
-					<p><a target="_blank" href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf">A Survey on Tree Edit Distance and Related
+					<p><a target="_blank" style="color: white" href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf">A Survey on Tree Edit Distance and Related
 						Problems</a></p>
 					<ol>
 						<li class="fragment">Zhang and Shasha’s</li>
@@ -403,7 +368,7 @@ while (
 						<h2>O(n)</h2>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/facebook/react/blob/master/packages/react-dom/src/client/ReactDOM.js">react-dom/src/client/ReactDOM.js</a>
+						<a target="_blank" style="color: white" href="https://github.com/facebook/react/blob/master/packages/react-dom/src/client/ReactDOM.js">react-dom/src/client/ReactDOM.js</a>
 						<pre><code class="javascript" data-trim contenteditable>
 function shouldHydrateDueToLegacyHeuristic(container) {
 	const rootElement = getReactRootElementInContainer(container);
@@ -417,17 +382,17 @@ function shouldHydrateDueToLegacyHeuristic(container) {
 				</section>
 				<section>
 					<h3>Элементы разных типов</h3>
-					<a target="_blank" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+					<a target="_blank" style="color: white" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
 					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 function updateElement(returnFiber: Fiber, current: Fiber | null, element: ReactElement): Fiber {
 	if (current !== null && current.type === element.type) {
-	  // Move based on index
+	  // Рендеринг vdom дерева если элементы разных типов
 	  const existing = useFiber(current, element.props, expirationTime);
 	  existing.ref = coerceRef(returnFiber, current, element);
 	  existing.return = returnFiber;
 	  return existing;
 	} else {
-	  // Insert
+	  // поиск разницы для одинаковых типов нод 
 	  const created = createFiberFromElement(element, returnFiber.mode, expirationTime,
 	  );
 	  created.ref = coerceRef(returnFiber, current, element); created.return = returnFiber;
@@ -438,11 +403,11 @@ function updateElement(returnFiber: Fiber, current: Fiber | null, element: React
 				</section>
 				<section>
 					<h3>Ключи</h3>
-					<a target="_blank" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+					<a target="_blank" style="color: white" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
 					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 function mapRemainingChildren(returnFiber: Fiber, currentFirstChild: Fiber,
- ): Map {// Add the remaining children to a temporary map so that we can find them by
-	// keys quickly. Implicit (null) keys get added to this set with their index instead.
+ ): Map { // Добавим детей во временный map чтобы мы могли их
+	// потом быстро найти
 	const existingChildren: Map = new Map();
 	let existingChild = currentFirstChild;
 	while (existingChild !== null) {
@@ -459,7 +424,7 @@ function mapRemainingChildren(returnFiber: Fiber, currentFirstChild: Fiber,
 				</section>
 				<section>
 						<h3>Ключи</h3>
-						<a target="_blank" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
+						<a target="_blank" style="color: white" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 for (; newIdx < newChildren.length; newIdx++) {
   const newFiber = updateFromMap(existingChildren, returnFiber, newIdx, newChildren[newIdx]);
@@ -484,42 +449,18 @@ for (; newIdx < newChildren.length; newIdx++) {
 				</section>
 				<section>
 					<h3><h3>Рекурсивный Обход</h3>
-					<a target="_blank" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a></h3>
+					<a target="_blank" style="color: white" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactChildFiber.js">react-reconciler/src/ReactChildFiber.js</a></h3>
 					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 function reconcileChildrenIterator(
 	returnFiber: Fiber,
 	currentFirstChild: Fiber | null,
 	newChildrenIterable: Iterable<*>): Fiber | null {					  
-	const iteratorFn = getIteratorFn(newChildrenIterable);			  
-	const newChildren = iteratorFn.call(newChildrenIterable);
-	invariant(newChildren != null, 'An iterable object provided no iterator.');
-							  
-	let resultingFirstChild: Fiber | null = null;
-	let previousNewFiber: Fiber | null = null;
-							  
-	let oldFiber = currentFirstChild;
-	let lastPlacedIndex = 0;
-	let newIdx = 0;
-	let nextOldFiber = null;
-							  
-	let step = newChildren.next();
 	for (
 	  ;
 	  oldFiber !== null && !step.done;
 	  newIdx++, step = newChildren.next()
 	) {
-	  if (oldFiber.index > newIdx) {
-		 nextOldFiber = oldFiber;
-		 oldFiber = null;
-	  } else {
-		 nextOldFiber = oldFiber.sibling;
-	  }
-	  const newFiber = updateSlot(
-		 returnFiber,
-		 oldFiber,
-		 step.value,
-		 expirationTime,
-	  );
+
 	  if (newFiber === null) {
 		 // TODO: This breaks on empty slots like null children. That's
 		 // unfortunate because it triggers the slow path all the time. We need
@@ -564,7 +505,7 @@ function reconcileChildrenIterator(
 				</section>
 				<section>
 					<h2>You’re Missing the Point of React</h2>
-					<a target="_blank" href="https://medium.com/@dan_abramov/">https://medium.com/@dan_abramov/</a>
+					<a target="_blank" style="color: white" href="https://medium.com/@dan_abramov/">https://medium.com/@dan_abramov/</a>
 				</section>
 				<section>
 					<blockquote>"Now that we’re not surprised by virtual DOM anymore and it is being adopted by other frameworks and libraries, we can focus on examining React’s true strengths: composition, unidirectional data flow, freedom from DSLs, explicit mutation and static mental model"</blockquote>
@@ -572,8 +513,6 @@ function reconcileChildrenIterator(
 				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
 					<h2 style="color: black">A faster diff algorithm</h2>
 					<img src="img/10.png" alt="">
-				</section>
-				<section data-background-video="img/yyyy.mov">
 				</section>
 				<section>
 					<ol>
@@ -584,7 +523,7 @@ function reconcileChildrenIterator(
 				</section>
 				<section>
 					<h3>Бенчмарки не отвечают верно на все вопросы</h3>
-					<a target="_blank" href="https://www.youtube.com/watch?v=Ag-1wmHWwS4">Evan You - Demystifying Frontend Framework Performance</a>
+					<a target="_blank" style="color: white" href="https://www.youtube.com/watch?v=Ag-1wmHWwS4">Evan You - Demystifying Frontend Framework Performance</a>
 				</section>
 				<section>
 					<img class="plain" style="background: none" src="img/Vue.png" alt="">
@@ -608,7 +547,7 @@ function reconcileChildrenIterator(
 					</ol>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
 function updateChildren(parentElm: Node,
                           oldCh: Array,
@@ -622,31 +561,17 @@ function updateChildren(parentElm: Node,
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
-function updateChildren(parentElm: Node,
-                          oldCh: Array,
-                          newCh: Array,
-                          insertedVnodeQueue: VNodeQueue) {
-
-    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
-		 // алгоритм
-	 }
-}
-				</code></pre>
-				</section>
-				<section>
-						<a target="_blank" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
-						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
-if (!isVNode(oldStartVnode)) {
-	oldStartVnode = oldCh[++oldStartIdx]; // Vnode might have been moved left
- } else if (!isVNode(oldEndVnode)) {
+if (!isVNode(oldStartVnode)) { // в старом наборе нет стартовой ноды
+	oldStartVnode = oldCh[++oldStartIdx];
+ } else if (!isVNode(oldEndVnode)) { // в старом наборе нет последней ноды
 	oldEndVnode = oldCh[--oldEndIdx];
- } else if (!isVNode(newStartVnode)) {
+ } else if (!isVNode(newStartVnode)) { // в новом наборе нет стартовой ноды
 	newStartVnode = newCh[++newStartIdx];
- } else if (!isVNode(newEndVnode)) {
+ } else if (!isVNode(newEndVnode)) { // в новом наборе нет последней ноды
 	newEndVnode = newCh[--newEndIdx];
- } else if (sameVnode(oldStartVnode, newStartVnode)) {
+ } else if (sameVnode(oldStartVnode, newStartVnode)) { // одинаковые ноды в начале
 	patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
 	oldStartVnode = oldCh[++oldStartIdx];
 	newStartVnode = newCh[++newStartIdx];
@@ -654,18 +579,18 @@ if (!isVNode(oldStartVnode)) {
 				</code></pre>
 				</section>
 				<section>
-				<a target="_blank" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+				<a target="_blank" style="color: white" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
 				<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
-} else if (sameVnode(oldEndVnode, newEndVnode)) {
+} else if (sameVnode(oldEndVnode, newEndVnode)) { // одинаковые ноды в конце
 	patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);
 	oldEndVnode = oldCh[--oldEndIdx];
 	newEndVnode = newCh[--newEndIdx];
- } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
+ } else if (sameVnode(oldStartVnode, newEndVnode)) { // одинаковые ноды в начале и конце
 	patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
 	api.insertBefore(parentElm, oldStartVnode.elm as Node, api.nextSibling(oldEndVnode.elm as Node));
 	oldStartVnode = oldCh[++oldStartIdx];
 	newEndVnode = newCh[--newEndIdx];
- } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
+ } else if (sameVnode(oldEndVnode, newStartVnode)) { // одинаковые ноды в конце и начале
 	patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
 	api.insertBefore(parentElm, oldEndVnode.elm as Node, oldStartVnode.elm as Node);
 	oldEndVnode = oldCh[--oldEndIdx];
@@ -674,10 +599,10 @@ if (!isVNode(oldStartVnode)) {
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/snabbdom/snabbdom/blob/master/src/snabbdom.ts">snabbdom/blob/master/src/snabbdom.ts</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
  idxInOld = oldKeyToIdx[newStartVnode.key as string];
- if (isUndef(idxInOld)) { // New element
+ if (isUndef(idxInOld)) { // появлется новая нода в наборе, которой по индексу нет в старом
  } else {
 	elmToMove = oldCh[idxInOld];
 	if (isVNode(elmToMove)) {
@@ -720,7 +645,7 @@ if (!isVNode(oldStartVnode)) {
 					</ol>
 				</section>
 				<section>
-					<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+					<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 					<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 function patchChildren(
 	lastChildFlags: ChildFlags,
@@ -736,17 +661,17 @@ function patchChildren(
 					</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 case ChildFlags.HasVNodeChildren:
 	switch (nextChildFlags) {
-	  case ChildFlags.HasVNodeChildren:
+	  case ChildFlags.HasVNodeChildren: // дети живые, уходим в патч
 		 patch(lastChildren, nextChildren, parentDOM, context, isSVG);
 		 break;
-	  case ChildFlags.HasInvalidChildren:
+	  case ChildFlags.HasInvalidChildren: // все дети невалидные === удалить все, сродни hydrate
 		 remove(lastChildren, parentDOM);
 		 break;
-	  default:
+	  default: // полная замена детей
 		 remove(lastChildren, parentDOM);
 		 mountArrayChildren(nextChildren, parentDOM, context, isSVG);
 		 break;
@@ -755,16 +680,16 @@ case ChildFlags.HasVNodeChildren:
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 case ChildFlags.HasInvalidChildren:
 switch (nextChildFlags) {
-  case ChildFlags.HasVNodeChildren:
+  case ChildFlags.HasVNodeChildren: // дети живые, уходим в патч
 	 mount(nextChildren, parentDOM, context, isSVG);
 	 break;
   case ChildFlags.HasInvalidChildren:
 	 break;
-  default:
+  default: // полная замена детей
 	 mountArrayChildren(nextChildren, parentDOM, context, isSVG);
 	 break;
 }
@@ -772,7 +697,7 @@ break;
 				</code></pre>
 				</section>
 				<section>
-						<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 						<pre><code  class="javascript" data-trim contenteditable style="font-size: 14px">
 if (nextChildFlags & ChildFlags.MultipleChildren) {
 	if (lastChildren.length === 0) {
@@ -780,22 +705,26 @@ if (nextChildFlags & ChildFlags.MultipleChildren) {
 	  }
 	} else if (nextChildren.length === 0) { // удалим все
 	} else if (nextChildFlags === ChildFlags.HasKeyedChildren && lastChildFlags === ChildFlags.HasKeyedChildren) {
+		// запускаем алгоритм патча для детей с ключами
 	  patchKeyedChildren(lastChildren, nextChildren, parentDOM, context, isSVG, lastChildren.length, nextChildren.length);
 	} else {
+		// запускаем алгоритм патча для детей без ключей
 	  patchNonKeyedChildren(lastChildren, nextChildren, parentDOM, context, isSVG, lastChildren.length, nextChildren.length);
 	}
  } else if (nextChildFlags === ChildFlags.HasInvalidChildren) {
+	 // невалидные -> сразу удаляем
 	removeAllChildren(parentDOM, lastChildren);
  } else if (nextChildFlags === ChildFlags.HasVNodeChildren) {
+	// заменяем всех детей
 	removeAllChildren(parentDOM, lastChildren); mount(nextChildren, parentDOM, context, isSVG);
  }
 				</code></pre>
 				</section>
 				<section>
 					<p>patchKeyedChildren</p>
-						<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+						<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 						<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
-// Sync nodes with the same key at the beginning.
+// Находим и синхронизируем детей с одинаковыми ключами в начале
 while (aNode.key === bNode.key) {
   if (bNode.dom) {
 	 b[j] = bNode = directClone(bNode);
@@ -813,9 +742,9 @@ bNode = b[bEnd];
 				</section>
 				<section>
 						<p>patchKeyedChildren</p>
-							<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+							<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 							<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
-// Sync nodes with the same key at the end.
+// Находим и синхронизируем детей с одинаковыми ключами в конце
 while (aNode.key === bNode.key) {
   if (bNode.dom) {
 	 b[bEnd] = bNode = directClone(bNode);
@@ -834,24 +763,24 @@ while (aNode.key === bNode.key) {
 					</section>
 					<section>
 							<p>patchKeyedChildren</p>
-								<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+								<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 								<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
-// When sizes are small, just loop them through
+// Когда размер дерева небольшой можем пройтись по нему
 if (bLength < 4 || (aLeft | bLeft) < 32) {
   for (i = aStart; i <= aEnd; i++) {
 	 aNode = a[i];
 	 if (patched < bLeft) {
 		for (j = bStart; j <= bEnd; j++) {
 		  bNode = b[j];
-		  if (aNode.key === bNode.key) {
+		  if (aNode.key === bNode.key) { // одинаковые ключи
 			 sources[j - bStart] = i + 1;
-			 if (canRemoveWholeContent) {
+			 if (canRemoveWholeContent) { // может нужно удалить всех детей?
 				canRemoveWholeContent = false;
 				while (i > aStart) {
 				  remove(a[aStart++], dom);
 				}
 			 }
-			 if (bNode.dom) {
+			 if (bNode.dom) { // замена на новую
 				b[j] = bNode = directClone(bNode);
 			 }
 			 patch(aNode, bNode, dom, context, isSVG);
@@ -871,8 +800,10 @@ if (bLength < 4 || (aLeft | bLeft) < 32) {
 						</section>
 						<section>
 								<p>patchKeyedChildren</p>
-									<a target="_blank" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
+									<a target="_blank" style="color: white" href="https://github.com/infernojs/inferno/blob/master/packages/inferno/src/DOM/patching.ts">inferno/blob/master/packages/inferno/src/DOM/patching.ts</a>
 									<pre><code class="javascript" data-trim contenteditable style="font-size: 14px">
+// Если размер больше установленной величины и при сложных перестановках
+// применяем поиск наибольшей увеличивающейся подпоследовательности
 if (moved) {
 	const seq = lis_algorithm(sources);
 	j = seq.length - 1;
@@ -913,12 +844,12 @@ if (moved) {
 			<section>
 				<h4>Тот самый бенчмарк</h4>
 				<p class="fragment">который показывает правду, но это не точно</p>
-				<p><a target="_blank" href="https://rawgit.com/krausest/js-framework-benchmark/master/webdriver-ts-results/table.html">https://rawgit.com/krausest/js-framework-benchmark</a></p>
+				<p><a target="_blank" style="color: white" href="https://rawgit.com/krausest/js-framework-benchmark/master/webdriver-ts-results/table.html">https://rawgit.com/krausest/js-framework-benchmark</a></p>
 			</section>
 			<section>
 				<h2>Спасибо</h2>
-				<p><a target="_blank" href="https://twitter.com/calacitizen">twitter.com/calacitizen</a></p>
-				<p><a target="_blank" href="https://github.com/calacitizen">github.com/calacitizen</a></p>
+				<p><a target="_blank" style="color: white" href="https://twitter.com/calacitizen">twitter.com/calacitizen</a></p>
+				<p><a target="_blank" style="color: white" href="https://github.com/calacitizen">github.com/calacitizen</a></p>
 			</section>
 			</div>
 		</div>
