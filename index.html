@@ -503,23 +503,23 @@ function reconcileChildrenIterator(
  }
 					</code></pre>
 				</section>
+				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
+						<h2 style="color: black">A faster diff algorithm</h2>
+						<img src="img/10.png" alt="">
+				</section>
+				<section>
+						<ol>
+							<li class="fragment">How does we often encounter sequences with 1000 elements in a vdom application.</li>
+							<li class="fragment">Is building large hashmaps as costly as we may think? does it have a real impact ?</li>
+							<li class="fragment">The running time of O(ND) is 'not predictable'.</li>
+						</ol>
+				</section>
 				<section>
 					<h2>You’re Missing the Point of React</h2>
 					<a target="_blank" style="color: white" href="https://medium.com/@dan_abramov/">https://medium.com/@dan_abramov/</a>
 				</section>
 				<section>
 					<blockquote>"Now that we’re not surprised by virtual DOM anymore and it is being adopted by other frameworks and libraries, we can focus on examining React’s true strengths: composition, unidirectional data flow, freedom from DSLs, explicit mutation and static mental model"</blockquote>
-				</section>
-				<section data-transition="slide" data-background="#fff" data-background-transition="slide">
-					<h2 style="color: black">A faster diff algorithm</h2>
-					<img src="img/10.png" alt="">
-				</section>
-				<section>
-					<ol>
-						<li class="fragment">How does we often encounter sequences with 1000 elements in a vdom application.</li>
-						<li class="fragment">Is building large hashmaps as costly as we may think? does it have a real impact ?</li>
-						<li class="fragment">The running time of O(ND) is 'not predictable'.</li>
-					</ol>
 				</section>
 				<section>
 					<h3>Бенчмарки не отвечают верно на все вопросы</h3>
